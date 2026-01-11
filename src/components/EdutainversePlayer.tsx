@@ -119,8 +119,8 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
   }, []);
 
   const allowedStart = startTime;
-  const allowedEnd = endTime ?? playerInfo.duration || undefined;
-  const effectiveEnd = allowedEnd ?? playerInfo.duration || allowedStart + 1;
+  const allowedEnd = (endTime ?? playerInfo.duration) || undefined;
+  const effectiveEnd = (allowedEnd ?? playerInfo.duration) || allowedStart + 1;
   const rangeDuration = Math.max(effectiveEnd - allowedStart, 1);
 
   const iframeSrc = useMemo(() => {
@@ -390,7 +390,7 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
       if (!isReady) {
         return;
       }
-      const max = allowedEnd ?? playerInfo.duration || time;
+      const max = (allowedEnd ?? playerInfo.duration) || time;
       const nextTime = clamp(time, allowedStart, max);
       onSeek?.(nextTime);
       postCommand("seekTo", [nextTime, true]);
