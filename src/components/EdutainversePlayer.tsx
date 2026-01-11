@@ -8,6 +8,7 @@ export type EdutainversePlayerProps = {
   muted?: boolean;
   controls?: boolean;
   progressInterval?: number;
+  fill?: boolean;
   className?: string;
   onPlay?: () => void;
   onPause?: () => void;
@@ -75,6 +76,7 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
   muted = false,
   controls = true,
   progressInterval = DEFAULT_PROGRESS_INTERVAL,
+  fill = false,
   className,
   onPlay,
   onPause,
@@ -483,7 +485,9 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
 
   return (
     <div
-      className={`relative w-full aspect-video bg-black text-white ${className ?? ""}`}
+      className={`relative w-full ${fill ? "h-full" : "aspect-video"} bg-black text-white ${
+        className ?? ""
+      }`}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       aria-label="Edutainverse YouTube player"
