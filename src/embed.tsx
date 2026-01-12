@@ -56,6 +56,11 @@ const getEmbedParams = (): EmbedParams => {
 
 const EmbedApp = () => {
   const { videoId, userId, courseId, moduleId } = getEmbedParams();
+  const analyticsContext = {
+    userId: userId ?? "anonymous",
+    courseId: courseId ?? "unknown-course",
+    moduleId: moduleId ?? "unknown-module",
+  };
 
   if (!videoId) {
     return (
@@ -75,15 +80,14 @@ const EmbedApp = () => {
         autoplay={false}
         muted={false}
         controls={false}
+        nativeControls
         fill
-        onPlay={() => console.info("play", { userId, courseId, moduleId })}
-        onPause={() => console.info("pause", { userId, courseId, moduleId })}
-        onEnd={() => console.info("end", { userId, courseId, moduleId })}
+        onPlay={() => console.info("play", analyticsContext)}
+        onPause={() => console.info("pause", analyticsContext)}
+        onEnd={() => console.info("end", analyticsContext)}
         onProgress={(currentTime, duration) =>
           console.info("progress", {
-            userId,
-            courseId,
-            moduleId,
+            ...analyticsContext,
             currentTime: Math.round(currentTime),
             duration: Math.round(duration),
           })

@@ -7,6 +7,7 @@ export type EdutainversePlayerProps = {
   endTime?: number;
   muted?: boolean;
   controls?: boolean;
+  nativeControls?: boolean;
   progressInterval?: number;
   fill?: boolean;
   className?: string;
@@ -75,6 +76,7 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
   endTime,
   muted = false,
   controls = true,
+  nativeControls = false,
   progressInterval = DEFAULT_PROGRESS_INTERVAL,
   fill = false,
   className,
@@ -128,11 +130,11 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
   const iframeSrc = useMemo(() => {
     const params = new URLSearchParams({
       autoplay: autoplay ? "1" : "0",
-      controls: "0",
+      controls: nativeControls ? "1" : "0",
       modestbranding: "1",
       rel: "0",
-      fs: "0",
-      disablekb: "1",
+      fs: nativeControls ? "1" : "0",
+      disablekb: nativeControls ? "0" : "1",
       playsinline: "1",
       iv_load_policy: "3",
       enablejsapi: "1",
@@ -149,6 +151,7 @@ export const EdutainversePlayer: React.FC<EdutainversePlayerProps> = ({
 
     if (typeof window !== "undefined") {
       params.set("origin", window.location.origin);
+      params.set("widget_referrer", window.location.href);
     }
 
     return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
